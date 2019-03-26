@@ -33,9 +33,7 @@ def names():
     """Return a list of sample names."""
 
     # Use Pandas to perform the sql query
-    client = MongoClient()
-    db = client.air_bnb
-    collection = db.neighborhoods
+   
     data = pd.DataFrame(list(collection.find({})))
 
     # Return a list of the column names (sample names)
@@ -44,9 +42,7 @@ def names():
 @app.route("/listings/<name>")
 def listings(name):
 
-    client = MongoClient()
-    db = client["air_bnb"]
-    collection1 = db["listings"]
+   
 
     data1 = {}
     myquery = {"neighbourhood":{ "$eq": (name) }}
