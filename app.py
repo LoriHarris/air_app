@@ -14,7 +14,7 @@ app = Flask(__name__, static_url_path='', static_folder="")
 # setup mongo connection
 
 # mongo = PyMongo(app, uri="mongodb://localhost:27017/air_bnb")
-uri="mongodb://localhost:27017/air_bnb"
+uri="mongodb://heroku_r58qkhd7:Les4783!@ds223756.mlab.com:23756/heroku_r58qkhd7"
 client = MongoClient(uri,
                      connectTimeoutMS=30000,
                      socketTimeoutMS=None,
