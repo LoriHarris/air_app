@@ -6,6 +6,7 @@ from pymongo import MongoClient
 import os
 from bson.objectid import ObjectId
 import pprint
+import sys
 
 
 
@@ -13,21 +14,12 @@ import pprint
 app = Flask(__name__, static_url_path='', static_folder="")
 # setup mongo connection
 
-# mongo = PyMongo(app, uri="mongodb://localhost:27017/air_bnb")
-uri="mongodb://heroku_r58qkhd7:Les4783!@ds223756.mlab.com:23756/heroku_r58qkhd7"
-client = MongoClient(uri,
-                     connectTimeoutMS=30000,
-                     socketTimeoutMS=None,
-                     socketKeepAlive=True)
-
-db = client.get_default_database()
-print(db.collection_names)
-# db = client.air_bnb
-
+uri="mongodb://Lori:Les4783!@ds223756.mlab.com:23756/heroku_r58qkhd7"
+client = pymongo.MongoClient()
+db = client.heroku_r58qkhd7
 # connect to mongo db and collection
-collection1 = db["listings"]
 
-collection = db.neighborhoods
+
 
 @app.route("/")
 def index():
@@ -41,20 +33,22 @@ def names():
     """Return a list of sample names."""
 
     # Use Pandas to perform the sql query
-   
+    
+    collection = db.neighborhoods
     data = pd.DataFrame(list(collection.find({})))
-
+    print(jsonify(list*data.neighborhood))
     # Return a list of the column names (sample names)
     return jsonify(list(data.neighbourhood))
 
 @app.route("/listings/<name>")
 def listings(name):
 
-   
+    
+    collection = db["listings"]
 
     data1 = {}
     myquery = {"neighbourhood":{ "$eq": (name) }}
-    for listing in collection1.find(myquery):
+    for listing in collection.find(myquery):
         data1.update({'id':listing['id'],
         'host_id':listing['host_id'],
         'Host_Name': listing['host_name'],

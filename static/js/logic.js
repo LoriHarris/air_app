@@ -1,4 +1,4 @@
-var url = "neighbourhoods.geojson";
+var url = "/other/neighbourhoods.geojson";
 
 var neighborhood_list = [];
 var popUp = [];
