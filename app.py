@@ -14,9 +14,8 @@ import sys
 app = Flask(__name__, static_url_path='', static_folder="")
 # setup mongo connection
 
-uri="mongodb://Lori:Les4783!@ds223756.mlab.com:23756/heroku_r58qkhd7"
-client = pymongo.MongoClient()
-db = client.heroku_r58qkhd7
+mongo = PyMongo(app, uri="mongodb://Lori:Les4783!@ds223756.mlab.com:23756/heroku_r58qkhd7")
+
 # connect to mongo db and collection
 
 
@@ -24,7 +23,7 @@ db = client.heroku_r58qkhd7
 @app.route("/")
 def index():
     # write a statement that finds all the items in the db and sets it to a variable
-    listings_info = db.listings.find_one()
+    listings_info = mongo.db.listings.find_one()
     return render_template("index.html", data=listings_info)
 
 
@@ -34,9 +33,8 @@ def names():
 
     # Use Pandas to perform the sql query
     
-    collection = db.neighborhoods
+    collection = mongo.db.neighborhoods
     data = pd.DataFrame(list(collection.find({})))
-    print(jsonify(list*data.neighborhood))
     # Return a list of the column names (sample names)
     return jsonify(list(data.neighbourhood))
 
@@ -44,7 +42,9 @@ def names():
 def listings(name):
 
     
-    collection = db["listings"]
+    # client = MongoClient()
+    # db = client["air_bnb"]
+    collection = mongo.db["listings"]
 
     data1 = {}
     myquery = {"neighbourhood":{ "$eq": (name) }}
