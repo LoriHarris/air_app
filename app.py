@@ -24,9 +24,10 @@ mongo = PyMongo(app, uri="mongodb://Lori:Les4783!@ds223756.mlab.com:23756/heroku
 def index():
     # write a statement that finds all the items in the db and sets it to a variable
     listings_info = mongo.db.listings.find_one()
+    json_info = mongo.db.geojson.find_one({})
   
-    return render_template("index.html", data=listings_info)
-   
+    return render_template("index.html", data=json_info)
+
 
 @app.route("/names")
 def names():
