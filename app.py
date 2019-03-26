@@ -13,9 +13,17 @@ import pprint
 app = Flask(__name__, static_url_path='', static_folder="")
 # setup mongo connection
 
-mongo = PyMongo(app, uri="mongodb://localhost:27017/air_bnb")
-client = MongoClient()
-db = client.air_bnb
+# mongo = PyMongo(app, uri="mongodb://localhost:27017/air_bnb")
+uri="mongodb://localhost:27017/air_bnb"
+client = MongoClient(uri,
+                     connectTimeoutMS=30000,
+                     socketTimeoutMS=None,
+                     socketKeepAlive=True)
+
+db = client.get_default_database()
+print(db.collection_names)
+# db = client.air_bnb
+
 # connect to mongo db and collection
 collection1 = db["listings"]
 
@@ -24,7 +32,7 @@ collection = db.neighborhoods
 @app.route("/")
 def index():
     # write a statement that finds all the items in the db and sets it to a variable
-    listings_info = mongo.db.listings.find_one()
+    listings_info = db.listings.find_one()
     return render_template("index.html", data=listings_info)
 
 
