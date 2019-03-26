@@ -14,10 +14,12 @@ app = Flask(__name__, static_url_path='', static_folder="")
 # setup mongo connection
 
 mongo = PyMongo(app, uri="mongodb://localhost:27017/air_bnb")
-
+client = MongoClient()
+db = client.air_bnb
 # connect to mongo db and collection
+collection1 = db["listings"]
 
-
+collection = db.neighborhoods
 
 @app.route("/")
 def index():
@@ -44,11 +46,11 @@ def listings(name):
 
     client = MongoClient()
     db = client["air_bnb"]
-    collection = db["listings"]
+    collection1 = db["listings"]
 
     data1 = {}
     myquery = {"neighbourhood":{ "$eq": (name) }}
-    for listing in collection.find(myquery):
+    for listing in collection1.find(myquery):
         data1.update({'id':listing['id'],
         'host_id':listing['host_id'],
         'Host_Name': listing['host_name'],
