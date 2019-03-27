@@ -1,4 +1,4 @@
-var url = "/static/neighbourhoods.json";
+var url = "/geojson";
 
 var neighborhood_list = [];
 var popUp = [];
@@ -13,9 +13,10 @@ function getColor(d) {
          d < 8   ? '#bd0026' :
                     '#800026';
 }
-d3.json(url, function(response) {
+d3.json("/geojson", function(response) {
+    console.log(response.type)
+    createFeatures(response.type);
     
-    createFeatures(response.features);
   });
   
   function createFeatures(neighborhoodData) {

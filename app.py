@@ -7,6 +7,7 @@ import os
 from bson.objectid import ObjectId
 import pprint
 import sys
+import json
 
 
 
@@ -45,13 +46,13 @@ def names():
 def geojson():
     collection = mongo.db.geojson
     data = {}
-    myquery = {"features": {"$exists":"true"}}   
-    data1 = pd.DataFrame(list(collection.find({})))
+    myquery = {}   
 
     for json in collection.find(myquery):
         data.update({'type': json['features']})
     print(data)
-    return jsonify(list(data))
+    
+    return jsonify(data)
 
 @app.route("/listings/<name>")
 def listings(name):
@@ -79,7 +80,8 @@ def listings(name):
         'Reviews_per_month':listing['reviews_per_month'],
         'Availability':listing['availability_365']
         })
-    print(data1)
+    # print(data1)
+
     return jsonify(data1)
    
 
