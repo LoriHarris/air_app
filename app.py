@@ -39,6 +39,19 @@ def names():
     data = pd.DataFrame(list(collection.find({})))
     # Return a list of the column names (sample names)
     return jsonify(list(data.neighbourhood))
+# db.inventory.find( { size: { h: 14, w: 21, uom: "cm" } } )
+
+@app.route("/geojson")
+def geojson():
+    collection = mongo.db.geojson
+    data = {}
+    myquery = {"features": {"$exists":"true"}}   
+    data1 = pd.DataFrame(list(collection.find({})))
+
+    for json in collection.find(myquery):
+        data.update({'type': json['features']})
+    print(data)
+    return jsonify(list(data))
 
 @app.route("/listings/<name>")
 def listings(name):
