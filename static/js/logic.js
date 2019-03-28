@@ -15,26 +15,7 @@ function getColor(d) {
                     '#800026';
 } 
 
-console.log(name);
-function buildMetadata(sample) {
-  n_name();
-    function n_name() {
-      name = sample;
-    };
-  d3.json(`/listings/${sample}`, function(data) {
-    console.log(data);
-    
-        var lat = data.Latitude;
-        var lon = data.Longitude;
-        var descrip = data.Description;
-        var neigh = data.Neighborhood;
-      
-    popUp.push(
-      L.Marker(([lat, lon]))
-      .bindPopup("<h3>" + neigh + "<h3><h3>Capacity: " + descrip + "<h3>"));
-    
-  }
-  )};
+
 
 
 d3.json("/geojson", function(response) {
@@ -51,9 +32,9 @@ d3.json("/geojson", function(response) {
       // var magRadius = properties.mag;
    
       function onEachFeature(feature, layer) {
-        // popUp.push(
-        // layer.bindPopup("<h3>" + feature.properties.neighbourhood + "</h3><hr>")
-        // )
+        popUp.push(
+        layer.bindPopup("<h3>" + feature.properties.neighbourhood + "</h3><hr>")
+        )
       };
 
     var neighbourhoods = L.geoJSON(neighborhoodData, {
@@ -84,13 +65,13 @@ var basemaps = {
   "Street Map" : streetmap
 };
 var overlaymaps = {
-  "Neighborhoods" :neighbourhoods,
+  // "Neighborhoods" :neighbourhoods,
   "Popup" : popUp1
 };
 var myMap = L.map("map", {
   center: [29.95, -89.75],
   zoom:10,
-  layers: [satellite, neighbourhoods]
+  layers: [satellite, popUp1]
 });
 // var legend = L.control({position: 'bottomright'});
 

@@ -11,7 +11,7 @@ function buildMetadata(sample) {
       
       cell.text(`${key}: ${value}`);
       
-    console.log(`Key: ${key} | Value: ${value}`);
+    // console.log(`Key: ${key} | Value: ${value}`);
     });
   });
 });
