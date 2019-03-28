@@ -54,6 +54,24 @@ def geojson():
     
     return jsonify(data)
 
+@app.route("/reviews_json")
+def reviews_json():
+    collection = mongo.db.reviews_json
+    data = {}
+    myquery = {}   
+
+    for json in collection.find(myquery):
+        data.update({'id': json['id'],
+        'listing_id' : json['listing_id'],
+        'date' : json['date'],
+        'reviewer_id': json['reviewer_id'],
+        'reviewer_name' :json['reviewer_name'],
+        'comments' : json['comments']      
+        })
+    print(data)
+    
+    return jsonify(data)
+
 @app.route("/listings/<name>")
 def listings(name):
 
@@ -83,6 +101,8 @@ def listings(name):
     # print(data1)
 
     return jsonify(data1)
+
+
    
 
 
