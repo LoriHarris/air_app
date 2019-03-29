@@ -2,6 +2,7 @@ var url = "/geojson";
 
 var neighborhood_list = [];
 var popUp = [];
+var bikeUp = [];
 
 function getColor(d) {
   return d < 1 ? '#ffffcc' :
@@ -17,12 +18,12 @@ function getColor(d) {
 
 
 
-
 d3.json("/geojson", function(response) {
     console.log(response.type)
     createFeatures(response.type);
     
   });
+
   
   function createFeatures(neighborhoodData) {
     
@@ -42,8 +43,27 @@ d3.json("/geojson", function(response) {
     });
     
   }; 
-
-console.log(popUp);
+  
+d3.json("/bikeshare", function(bikeresponse) {
+  console.log(bikeresponse.type);
+  createBikes(bikeresponse.type);
+});
+  function createBikes(bikeData) {
+    for (var i = 0; i < bikeData.length; i++) {
+      var geometry = bikeData[i].geometry;
+      if (geometry) {
+        bikeUp.push(
+          L.circleMarker(([geometry.coordinates[0], geometry.coordinates[1]]), {
+          stroke: false, 
+          color: "black",
+          fillColor: "blue",
+          radius: 100000
+        }
+        )
+        )}
+    };
+  
+console.log("!");
 var satellite = L.tileLayer("https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}", {
   attribution: "Map data &copy; <a href=\"https://www.openstreetmap.org/\">OpenStreetMap</a> contributors, <a href=\"https://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA</a>, Imagery © <a href=\"https://www.mapbox.com/\">Mapbox</a>",
   maxZoom: 18,
@@ -59,14 +79,15 @@ var streetmap = L.tileLayer("https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.pn
 });
 // var magnitude = L.featureGroup(circles);
 var popUp1 = L.layerGroup(popUp);
+var bikeUp1 = L.layerGroup(bikeUp);
 
 var basemaps = {
   "Satellite Map" : satellite,
   "Street Map" : streetmap
 };
 var overlaymaps = {
-  // "Neighborhoods" :neighbourhoods,
-  "Popup" : popUp1
+  "Bike Stations" : bikeUp1,
+  "Neighborhoods" : popUp1
 };
 var myMap = L.map("map", {
   center: [29.95, -89.75],
@@ -94,7 +115,7 @@ var myMap = L.map("map", {
 // legend.addTo(myMap);
 L.control.layers(basemaps, overlaymaps, {
   collapsed: false
-}).addTo(myMap)};
+}).addTo(myMap)}};
   
 
 
