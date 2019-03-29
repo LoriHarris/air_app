@@ -33,9 +33,9 @@ d3.json("/geojson", function(response) {
       // var magRadius = properties.mag;
    
       function onEachFeature(feature, layer) {
-        popUp.push(
-        layer.bindPopup("<h3>" + feature.properties.neighbourhood + "</h3><hr>")
-        )
+        // popUp.push(
+        // layer.bindPopup("<h3>" + feature.properties.neighbourhood + "</h3><hr>")
+        // )
       };
 
     var neighbourhoods = L.geoJSON(neighborhoodData, {
@@ -53,17 +53,17 @@ d3.json("/bikeshare", function(bikeresponse) {
       var geometry = bikeData[i].geometry;
       if (geometry) {
         bikeUp.push(
-          L.circleMarker(([geometry.coordinates[0], geometry.coordinates[1]]), {
+          L.circleMarker(([geometry.coordinates[1], geometry.coordinates[0]]), {
           stroke: false, 
           color: "black",
           fillColor: "blue",
-          radius: 100000
+          radius: 20
         }
         )
         )}
     };
   
-console.log("!");
+console.log(bikeUp);
 var satellite = L.tileLayer("https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}", {
   attribution: "Map data &copy; <a href=\"https://www.openstreetmap.org/\">OpenStreetMap</a> contributors, <a href=\"https://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA</a>, Imagery © <a href=\"https://www.mapbox.com/\">Mapbox</a>",
   maxZoom: 18,
@@ -87,7 +87,7 @@ var basemaps = {
 };
 var overlaymaps = {
   "Bike Stations" : bikeUp1,
-  "Neighborhoods" : popUp1
+  "Neighborhoods" : neighbourhoods
 };
 var myMap = L.map("map", {
   center: [29.95, -89.75],

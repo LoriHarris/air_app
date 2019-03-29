@@ -52,6 +52,28 @@ def bikeshare():
     
     return jsonify(data)
 
+@app.route("/museums")
+def museums():
+    collection = mongo.db.museums_json
+    data = {}
+    myquery = {}   
+
+    for json in collection.find(myquery):
+        data.update({'type': json['features']})
+    
+    return jsonify(data)
+
+@app.route("/listings")
+def full_listings():
+    collection = mongo.db.listings
+    data = {}
+    myquery = {}   
+
+    for json in collection.find(myquery):
+        data.update({'type': json['features']})
+    
+    return jsonify(data)
+
 @app.route("/reviews_json")
 def reviews_json():
     collection = mongo.db.reviews_json
